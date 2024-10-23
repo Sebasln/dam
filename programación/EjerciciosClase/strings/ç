@@ -10,13 +10,13 @@ int main(){
 	printf("Introduce la palabra: ");
 	scanf("%s", str);
 
-	int longitud = strlen(str);
+	printf("¿Cuántos caracteres tiene tu palabra? ");
+	scanf("%d", &num);
 
-	printf("Introduce la letra que quieres poner al final: ");
+	printf("Introduce la letra que quieres cambiar: ");
 	scanf(" %c", &reemplazo);
 
-	str[longitud] = reemplazo;
-	
+	str[numero] = reemplazo;
 
 	printf("Tu palabra nueva es: %s\n", str);
 
