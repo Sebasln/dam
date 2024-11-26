@@ -29,6 +29,18 @@ void inicializar(Estudiante * estudiante_a_rellenar,char * nombre, int edad, flo
 	strcpy(estudiante_a_rellenar->nombre, nombre);
 }
 
+//No es necesario un valor de retorno.
+// Cumpleanios 
+
+void cumpleanios(Estudiante * cumpleanios) {
+	cumpleanios->edad++;
+	
+
+}
+
+//Crea una función que cree una cadena de teto con la informacion del estuidaitne
+//(Puedes emepzar creando una funcion que imprima por pantalla la info de un estudiante).
+
 
 int main(){
 	Estudiante listado[MAX_ESTUDIANTES]; //Aquí se reserva la memoria para los estudiantes
@@ -56,6 +68,12 @@ int main(){
 
 		inicializar(&listado[i], nombre, edad, nota);
 	}
+
+	//El estudiante de la primera posición ha cumplido años
+	printf("Edad antigua de %s: %d\n", listado[0].nombre, listado->edad);
+	cumpleanios(&listado[0]);
+	printf("Edad nueva: %d\n", listado[0].edad);
+
 	return 0;
 }
 
