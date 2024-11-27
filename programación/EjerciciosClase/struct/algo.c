@@ -3,6 +3,8 @@
 #include <string.h>
 #define MAX_NOMBRE 20
 #define MAX_ESTUDIANTES 20
+#define MAX_BUFFER 200
+
 
 typedef struct {
 	char nombre[MAX_NOMBRE];
@@ -27,6 +29,7 @@ void inicializar(Estudiante * estudiante_a_rellenar,char * nombre, int edad, flo
 	estudiante_a_rellenar->edad = edad;
 	estudiante_a_rellenar->nota = nota;
 	strcpy(estudiante_a_rellenar->nombre, nombre);
+
 }
 
 //No es necesario un valor de retorno.
@@ -35,6 +38,45 @@ void inicializar(Estudiante * estudiante_a_rellenar,char * nombre, int edad, flo
 void cumpleanios(Estudiante * cumpleanios) {
 	cumpleanios->edad++;
 	
+
+}
+
+/*
+27/11 vamos a crear una función para imprimir un estudiante, lo vamos a hacer de dos formas (pasarlo por valor o por referencia)
+*/
+
+//Recibe un estudiante y muestra por pantalla todos sus datos
+void imprimirEstudiante(const Estudiante * estudiante_a_imprimir){
+
+	printf("Nombre: %s\n", estudiante_a_imprimir->nombre);
+	printf("\tEdad: %d\n", estudiante_a_imprimir->edad);
+	printf("\tNota: %f\n", estudiante_a_imprimir->nota);
+
+}
+
+//Me interesa una función de imprimir sin los printfs. 
+
+/*0
+char * estudianteToString_warning(Estudiante * datos){
+	char retval[MAX_BUFFER];
+
+	//snprintf (donde, cuanto, el qué [lo q harias con un printf])
+	snprintf(retval, MAX_BUFFER, "El estudiante %s de %d años ha sacado un %f.", datos->nombre, datos->edad, datos->nota);
+
+	return retval;
+}
+*/
+
+char * estudianteToString(const Estudiante * datos, char * retval){
+
+	//snprintf (donde, cuanto, el qué [lo q harias con un printf])
+	snprintf(retval, MAX_BUFFER*sizeof(char), "El estudiante %s de %d años ha sacado un %f.", datos->nombre, datos->edad, datos->nota);
+}
+
+char * modificarNombreEstudiante(Estudiante * datos, char * nombreNuevo){
+
+	printf("Elige el nombre nuevo para este estudiante: ");
+	scanf("%s", datos->nombre);
 
 }
 
@@ -73,6 +115,21 @@ int main(){
 	printf("Edad antigua de %s: %d\n", listado[0].nombre, listado->edad);
 	cumpleanios(&listado[0]);
 	printf("Edad nueva: %d\n", listado[0].edad);
+
+	//Vamos a imprimir estudiantes
+	imprimirEstudiante(&listado[0]);
+	
+	
+
+	
+
+	char StringARellenar[MAX_BUFFER];
+	estudianteToString(&listado[0], StringARellenar);
+	printf("%s\n", StringARellenar);
+
+	char stringNombreNuevo[MAX_BUFFER];
+	modificarNombreEstudiante(&listado[0], stringNombreNuevo);
+	printf("%s\n", stringNombreNuevo);
 
 	return 0;
 }
