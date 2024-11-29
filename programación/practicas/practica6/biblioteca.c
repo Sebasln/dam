@@ -69,7 +69,7 @@ Book books[40] = {
     };
 
 
-void searchBook(Book * data, char * retVal){
+char searchBook(Book * data, char * retVal){
 	int search;
 
 	printf("Introduce un id(1-40): \n");
@@ -77,19 +77,57 @@ void searchBook(Book * data, char * retVal){
 
 	for (int i = 0; i < 40; ++i){
 		if(search == i){
-
 			snprintf(retVal, MAX_BUFFER*sizeof(char), "Name: %s\nAuthor: %s\nId: %d\nPrice: %f\nGenre: %d\nStock: %d\n",data[i].title ,data[i].author ,data[i].id ,data[i].price ,data[i].typeGenre ,data[i].stock );
 		}
 	}
 }
 
+
+void showAll(Book * data, char * retVal){
+
+	printf("Aquí está todo el listado de libros: \n");
+
+	for (int i = 0; i < 40; ++i){
+
+		snprintf(retVal, MAX_BUFFER*sizeof(char), "Name: %s\nAuthor: %s\nId: %d\nPrice: %f\nGenre: %d\nStock: %d\n",data[i].title ,data[i ].author ,data[i].id ,data[i].price ,data[i].typeGenre ,data[i].stock );
+
+	} 	
+}
+
+void newBook(Book * data, char * retVal){
+	int search, sum;
+
+	printf("¿A qué libro quieres añadirle stock? Escribe su ID\n");
+	scanf("%d", &search);
+
+	printf("¿Cuántas unidades quieres añadirle de stock? ");
+	scanf("%d", &sum);
+
+	if (sum < 0 || sum > 40){
+		printf("Introduce un valor válido.");
+		return;
+	}
+
+	data[search].stock += sum;
+
+	printf("El stock del libro %s se ha reestablecido en %d unidades.\n", data[search].title, data[search].stock);
+}
+
 int main(){
+	char stringBookList[MAX_BUFFER];
+
+	showAll(books, stringBookList);
+	printf("%s", stringBookList);
 
 	char stringResult[MAX_BUFFER];
+
 	searchBook(books, stringResult);
 	printf("%s", stringResult);
 
+	char stringNewBook[MAX_BUFFER];
 
+	newBook(books, stringNewBook);
+	printf("%s", stringNewBook);
 
 	return 0;
 }
