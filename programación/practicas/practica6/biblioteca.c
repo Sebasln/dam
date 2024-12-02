@@ -69,15 +69,16 @@ Book books[40] = {
     };
 
 
-char searchBook(Book * data, char * retVal){
+void searchBook(Book * data, char * retVal){
 	int search;
 
 	printf("Introduce un id(1-40): \n");
 	scanf("%d", &search);
 
-	for (int i = 0; i < 40; ++i){
-		if(search == i){
+	for (int i = 0; i < 40; ++i){	
+		if(search == i + 1 ){
 			snprintf(retVal, MAX_BUFFER*sizeof(char), "Name: %s\nAuthor: %s\nId: %d\nPrice: %f\nGenre: %d\nStock: %d\n",data[i].title ,data[i].author ,data[i].id ,data[i].price ,data[i].typeGenre ,data[i].stock );
+			return;
 		}
 	}
 }
@@ -87,11 +88,9 @@ void showAll(Book * data, char * retVal){
 
 	printf("Aquí está todo el listado de libros: \n");
 
-	for (int i = 0; i < 40; ++i){
-
-		snprintf(retVal, MAX_BUFFER*sizeof(char), "Name: %s\nAuthor: %s\nId: %d\nPrice: %f\nGenre: %d\nStock: %d\n",data[i].title ,data[i ].author ,data[i].id ,data[i].price ,data[i].typeGenre ,data[i].stock );
-
-	} 	
+	for(int i = 0; i < 40; i++){
+            printf("ID %i\n\tTitle: %s\n\tAuthor: %s\n\tPrice: %0.2f\n\tGenre: %i\n\tStock: %d\n",data[i].id,data[i].title,data[i].author,data[i].price,data[i].typeGenre,data[i].stock);
+        }
 }
 
 void newBook(Book * data, char * retVal){
@@ -108,9 +107,9 @@ void newBook(Book * data, char * retVal){
 		return;
 	}
 
-	data[search].stock += sum;
+	data[search - 1].stock += sum;
 
-	printf("El stock del libro %s se ha reestablecido en %d unidades.\n", data[search].title, data[search].stock);
+	printf("El stock del libro %s se ha reestablecido en %d unidades.\n", data[search - 1].title, data[search - 1].stock);
 }
 
 int main(){
