@@ -96,57 +96,59 @@ void showAll(Book * data, char * retVal){
         }
 }
 
-void newBook(Book * data, char * retVal){
-	char input;
+void newBook(Book *data, char * retVal) {
+    char input;
 
-	printf("Do you want to add stock to a book? (y/n) ");
+    
 
-	for(int i = 0; i < MAX_CATALOG; i++){
+    while(1) {
+        printf("Do you want to add stock to a book? (y/n) ");
+        scanf(" %c", &input);
 
-	printf("Do you want to add stock to a book? (y/n) ");
+        if(input == 'n') {
+            return;
+        } else if(input != 'y') {
+            printf("Enter a valid argument.\n");
+            continue;
+        }
 
-	if(input == 'n'){
-		return;
-	} else if(input != 'y'){
-		printf("Enter a valid argument.\n");
-		continue;
-	}
+        int search, sum;
 
-	int search, sum;
+        printf("Which book do you want to add stock to? Write its ID\n");
+        scanf("%d", &search);
 
-	printf("Which book do you want to add stock to? Write its ID\n");
-	scanf("%d", &search);
+        if (search < 1 || search > MAX_CATALOG) {
+            printf("There are no books with ID %d.\n", search);
+            continue;
+        }
 
+        printf("How many units do you want to add to the stock? ");
+        scanf("%d", &sum);
 
+        data[search - 1].stock += sum;
 
-	if (search < 0 || search > MAX_CATALOG){
-		printf("There are no books with ID %d.\n", search);
-		continue;
-	}
-
-	printf("How many units do you want to add from stock?");
-	scanf("%d", &sum);
-
-	data[search - 1].stock += sum;
-
-	printf("The stock from the book %s has been reestablished in %d units.\n", data[search - 1].title, data[search - 1].stock);
-	}
+        printf("The stock for the book %s has been updated to %d units.\n", data[search - 1].title, data[search - 1].stock);
+    }
 }
 
-// void displayCategory(Book * data, input){
-// 	for(int i = 0; i < MAX_CATALOG; i++){
 
-//             printf("ID %i\n\tTitle: %s\n\tAuthor: %s\n\tPrice: %0.2f\n\tGenre: %i\n\tStock: %d\n",data[i].id,data[i].title,data[i].author,data[i].price,data[i].typeGenre,data[i].stock);
-//             return;
-//         }
-// }
+void displayCategory(Book * data, input){
+	
+	for(int i = 0; i < MAX_CATALOG; i++){
+
+            printf("ID %i\n\tTitle: %s\n\tAuthor: %s\n\tPrice: %0.2f\n\tGenre: %i\n\tStock: %d\n",data[i].id,data[i].title,data[i].author,data[i].price,data[i].typeGenre,data[i].stock);
+            return;
+        }
+}
 
 void showCategory(Book * data, char * retVal){
 	int input;
 
 	printf("Enter a number to display all books from the same category(1: FICTION, 2: NON_FICTION, 3: POETRY, 4: THEATER, 5: ESSAY) ");
 
-	// displayCategory(data, input);
+	displayCategory(data, input);
+
+	return;
 
 	printf("Enter a valid number.\n");
 }
