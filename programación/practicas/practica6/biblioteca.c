@@ -5,6 +5,7 @@
 #define MAX_BUFFER 200
 #define MAX_CHARS_TITLE 80
 #define MAX_CHARS_AUTHOR 43
+#define MAX_CATALOG 40
 
 
 typedef enum{
@@ -25,7 +26,7 @@ typedef struct{
 
 } Book;
 
-Book books[40] = {
+Book books[MAX_CATALOG] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICTION, 10},
         {2, "1984", "George Orwell", 12.49, FICTION, 5},
         {3, "The Great Gatsby", "F. Scott Fitzgerald", 10.99, FICTION, 8},
@@ -72,45 +73,86 @@ Book books[40] = {
 void searchBook(Book * data, char * retVal){
 	int search;
 
-	printf("Introduce un id(1-40): \n");
+	printf("Enter an id(1-40): \n");
 	scanf("%d", &search);
 
-	for (int i = 0; i < 40; ++i){	
+	for (int i = 0; i < MAX_CATALOG; ++i){	
+			
 		if(search == i + 1 ){
 			snprintf(retVal, MAX_BUFFER*sizeof(char), "Name: %s\nAuthor: %s\nId: %d\nPrice: %f\nGenre: %d\nStock: %d\n",data[i].title ,data[i].author ,data[i].id ,data[i].price ,data[i].typeGenre ,data[i].stock );
 			return;
 		}
 	}
+		printf("Enter a valid number.\n");
 }
 
 
 void showAll(Book * data, char * retVal){
 
-	printf("Aquí está todo el listado de libros: \n");
+	printf("Here is the entire list of books: \n");
 
-	for(int i = 0; i < 40; i++){
+	for(int i = 0; i < MAX_CATALOG; i++){
             printf("ID %i\n\tTitle: %s\n\tAuthor: %s\n\tPrice: %0.2f\n\tGenre: %i\n\tStock: %d\n",data[i].id,data[i].title,data[i].author,data[i].price,data[i].typeGenre,data[i].stock);
         }
 }
 
 void newBook(Book * data, char * retVal){
+	char input;
+
+	printf("Do you want to add stock to a book? (y/n) ");
+
+	for(int i = 0; i < MAX_CATALOG; i++){
+
+	printf("Do you want to add stock to a book? (y/n) ");
+
+	if(input == 'n'){
+		return;
+	} else if(input != 'y'){
+		printf("Enter a valid argument.\n");
+		continue;
+	}
+
 	int search, sum;
 
-	printf("¿A qué libro quieres añadirle stock? Escribe su ID\n");
+	printf("Which book do you want to add stock to? Write its ID\n");
 	scanf("%d", &search);
 
-	printf("¿Cuántas unidades quieres añadirle de stock? ");
-	scanf("%d", &sum);
 
-	if (sum < 0 || sum > 40){
-		printf("Introduce un valor válido.");
-		return;
+
+	if (search < 0 || search > MAX_CATALOG){
+		printf("There are no books with ID %d.\n", search);
+		continue;
 	}
+
+	printf("How many units do you want to add from stock?");
+	scanf("%d", &sum);
 
 	data[search - 1].stock += sum;
 
-	printf("El stock del libro %s se ha reestablecido en %d unidades.\n", data[search - 1].title, data[search - 1].stock);
+	printf("The stock from the book %s has been reestablished in %d units.\n", data[search - 1].title, data[search - 1].stock);
+	}
 }
+
+// void displayCategory(Book * data, input){
+// 	for(int i = 0; i < MAX_CATALOG; i++){
+
+//             printf("ID %i\n\tTitle: %s\n\tAuthor: %s\n\tPrice: %0.2f\n\tGenre: %i\n\tStock: %d\n",data[i].id,data[i].title,data[i].author,data[i].price,data[i].typeGenre,data[i].stock);
+//             return;
+//         }
+// }
+
+void showCategory(Book * data, char * retVal){
+	int input;
+
+	printf("Enter a number to display all books from the same category(1: FICTION, 2: NON_FICTION, 3: POETRY, 4: THEATER, 5: ESSAY) ");
+
+	// displayCategory(data, input);
+
+	printf("Enter a valid number.\n");
+}
+
+
+
 
 int main(){
 	char stringBookList[MAX_BUFFER];
@@ -127,6 +169,8 @@ int main(){
 
 	newBook(books, stringNewBook);
 	printf("%s", stringNewBook);
+
+
 
 	return 0;
 }
