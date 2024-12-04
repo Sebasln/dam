@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-//Definimos constantes para los caracteres del titulo, del buffer y del autor y el número máximo de elementos que habrá en el catálogo
-#define MAX_BUFFER 200
+//Definimos constantes para los caracteres del titulo y del autor y el número máximo de elementos que habrá en el catálogo
 #define MAX_CHARS_TITLE 80
 #define MAX_CHARS_AUTHOR 43
 #define MAX_CATALOG 40
