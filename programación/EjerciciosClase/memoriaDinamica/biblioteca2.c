@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Definición de constantes para los tamaños máximos de título, autor y catálogo
 #define MAX_CHARS_TITLE 80
 #define MAX_CHARS_AUTHOR 43
 #define MAX_CATALOG 40
 
-// Enum para representar los géneros de los libros
 typedef enum{
     FICTION,
     NON_FICTION,
@@ -16,17 +14,15 @@ typedef enum{
     ESSAY
 } genre;
 
-// Estructura para representar un libro
 typedef struct{
-    int id;                  // ID único del libro
-    char title[MAX_CHARS_TITLE];  // Título del libro
-    char author[MAX_CHARS_AUTHOR]; // Autor del libro
-    float price;             // Precio del libro
-    genre typeGenre;        // Género del libro (Ficción, No ficción, Poesía, Teatro, Ensayo)
-    int stock;              // Cantidad disponible en stock
+    int id;
+    char title[MAX_CHARS_TITLE];
+    char author[MAX_CHARS_AUTHOR];
+    float price;
+    genre typeGenre;
+    int stock;
 } Book;
 
-// Inicialización del catálogo con 40 libros predefinidos
 Book books[MAX_CATALOG] = {
     {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICTION, 10},
     {2, "1984", "George Orwell", 12.49, FICTION, 5},
@@ -70,40 +66,14 @@ Book books[MAX_CATALOG] = {
     {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 10}
 };
 
-const char* convertGenre(genre gen) {    
-
-    switch (gen) {
-        case FICTION: return "Fiction";                     
-        case NON_FICTION: return "Non fiction";
-        case POETRY: return "Poetry";
-        case THEATER: return "Theatre";
-        case ESSAY: return "Essay";
-        default: return "Unknown";
-    }
-}
-
-void showBook(const Book* books) {                     // Lo que hace es mostrar un libro.
-    printf("ID %i\n\tTitle: %s\n\tAuthor: %s\n\tPrice: %0.2f\n\tGenre: %s\n\tStock: %d\n",
-               data[i].id, data[i].title, data[i].author, data[i].price, convertGenre(data->typeGenre), data[i].stock);
-}
-
-void mostrarTodosLosLibros() {                              //Lo que hace es un bucle que permite mostrar todos los libros llamando a la función mostrarLibros, ya que el bucle va desde el 0 hasta MAX_LIBROS que es 40 
-    for (int i = 0; i < MAX_LIBROS; ++i) {
-         if (libros[i].id != 0) {                   //ignora los libros eliminados
-            showBook(&libros[i]);   
-        }
-    }
-}
-
-// Función para mostrar todos los libros en el catálogo
 void showAll(const Book * data){
     printf("Here is the entire list of books: \n");
     for(int i = 0; i < MAX_CATALOG; i++){ 
-       
+        printf("ID %i\n\tTitle: %s\n\tAuthor: %s\n\tPrice: %0.2f\n\tGenre: %i\n\tStock: %d\n",
+               data[i].id, data[i].title, data[i].author, data[i].price, data[i].typeGenre, data[i].stock);
     }
 }
 
-// Función para buscar un libro por ID
 void searchBook(const Book * data, int id){
     if (id < 1 || id > MAX_CATALOG) {
         printf("Invalid ID.\n");
@@ -113,7 +83,6 @@ void searchBook(const Book * data, int id){
            data[id-1].title, data[id-1].author, data[id-1].id, data[id-1].price, data[id-1].typeGenre, data[id-1].stock);
 }
 
-// Función para agregar stock a un libro
 void addStock(Book *data, int id, int sum){
     if (id < 1 || id > MAX_CATALOG) {
         printf("Invalid ID.\n");
@@ -123,7 +92,6 @@ void addStock(Book *data, int id, int sum){
     printf("The stock for the book '%s' has been updated to %d units.\n", data[id-1].title, data[id-1].stock);
 }
 
-// Función para mostrar los libros de una categoría específica
 void showCategory(const Book * data, genre gen){
     for(int i = 0; i < MAX_CATALOG; i++){
         if (data[i].typeGenre == gen){
@@ -133,7 +101,6 @@ void showCategory(const Book * data, genre gen){
     }
 }
 
-// Función para mostrar los libros de un autor específico
 void displayByAuthor(const Book * data, const char *author){
     for(int i = 0; i < MAX_CATALOG; i++){
         if (strcmp(data[i].author, author) == 0){
@@ -143,14 +110,12 @@ void displayByAuthor(const Book * data, const char *author){
     }
 }
 
-// Función principal para procesar los comandos ingresados por la línea de comandos
 int main(int argc, char **argv){
     if (argc < 2) {
         printf("Type in ./biblioteca [command] [arguments]\n");
         return 0;
     }
 
-    // Comando para mostrar todos los libros o buscar un libro por ID
     if (strcmp(argv[1], "mostrar") == 0) {
         if (argc == 2) {
             showAll(books);
@@ -158,9 +123,7 @@ int main(int argc, char **argv){
             int id = atoi(argv[2]);
             searchBook(books, id);
         }
-    }
-    // Comando para agregar stock a un libro
-    else if (strcmp(argv[1], "stock") == 0) {
+    } else if (strcmp(argv[1], "stock") == 0) {
         if (argc == 4) {
             int id = atoi(argv[2]);
             int cantidad = atoi(argv[3]);
@@ -168,26 +131,20 @@ int main(int argc, char **argv){
         } else {
             printf("Usage: ./biblioteca stock [ID] [Quantity]\n");
         }
-    }
-    // Comando para mostrar los libros de una categoría específica
-    else if (strcmp(argv[1], "categoria") == 0) {
+    } else if (strcmp(argv[1], "categoria") == 0) {
         if (argc == 3) {
             int gen = atoi(argv[2]);
             showCategory(books, (genre)gen);
         } else {
             printf("Usage: ./biblioteca categoria [genre_id]\n");
         }
-    } 
-    // Comando para mostrar los libros de un autor específico
-    else if (strcmp(argv[1], "autor") == 0) {
+    } else if (strcmp(argv[1], "autor") == 0) {
         if (argc == 3) {
             displayByAuthor(books, argv[2]);
         } else {
             printf("Usage: ./biblioteca autor [author_name]\n");
         }
-    }
-    // Si el comando no es reconocido
-    else {
+    } else {
         printf("Unknown command.\n");
     }
 
