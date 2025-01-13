@@ -27,7 +27,7 @@ int main(){
 
 	printf("parte 2:\n")
 
-	int * arrAmpliado = (int *)realloc(arr, num*sizeof(int));
+	int * arrAmpliado = (int *)realloc(arr, 2*num*sizeof(int));
 
 	if (arrAmpliado == NULL){
 		
@@ -37,9 +37,9 @@ int main(){
 		return EXIT_FAILURE;
 	}
 
+	arr = arrAmpliado;
 
-
-	for (int i = 0; i < num*2; i++){
+	for (int i = num, valor = 1; i < num*2; i++, valor += 2){
 		arr[i] = i*2 + 1;
 	}
 

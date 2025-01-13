@@ -30,6 +30,9 @@ int main(){
 		return EXIT_FAILURE;
 	}
 
+	//Para evitar confusiones entre arr_ampliado y arr, es recomendable añadir: 
+	// arr = arr_ampliado;
+
 	//Terminamos de inicializar
 
 	arrAmpliado[3] =  7;
@@ -40,6 +43,7 @@ int main(){
 	}
 
 	free(arr);
+	free(arrAmpliado);
 
 	return EXIT_SUCCESS;
 }

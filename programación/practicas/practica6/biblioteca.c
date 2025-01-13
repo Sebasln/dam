@@ -271,6 +271,8 @@ void displayByAuthor(const Book * data){
 
 int main(){
 
+	pof
+
 	//Llamamos a todas las funciones
 	showAll(books);
 
