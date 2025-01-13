@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Definición de constantes para los tamaños máximos de título y autor 
+// Definición de constantes para los tamaños máximos de título y autor
 #define MAX_CHARS_TITLE 80
 #define MAX_CHARS_AUTHOR 43
 
@@ -179,6 +179,50 @@ void addNewBook(Book* data, int numNewBooks) {
     showAll(newData);
 }
 
+void deleteBook(Book* data, int id) {
+    if (id < 1 || id > books_quantity) {
+        printf("Invalid ID.\n");
+        return;
+    }
+
+    int index = -1;
+
+    // Buscar el índice del libro con el ID especificado
+    for (int i = 0; i < books_quantity; i++) {
+        if (data[i].id == id) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        printf("Book with ID %d not found.\n", id);
+        return;
+    }
+
+    // Desplazar los elementos hacia la izquierda para eliminar el libro
+    for (int i = index; i < books_quantity - 1; i++) {
+        data[i] = data[i + 1];
+    }
+
+    books_quantity--;
+
+    // Reducir el tamaño del arreglo
+    Book* temp = (Book*)realloc(data, sizeof(Book) * books_quantity);
+    if (temp == NULL && books_quantity > 0) {
+        printf("Memory reallocation failed after deletion.\n");
+        return;
+    }
+
+    data = temp;
+
+    printf("Book with ID %d has been deleted successfully.\n", id);
+
+    showAll(data);
+
+    printf("Now ID %d is free to use.\n", id);
+}
+
 // Función principal para procesar los comandos ingresados por la línea de comandos
 int main(int argc, char **argv){
 
@@ -273,7 +317,15 @@ int main(int argc, char **argv){
         } else {
             printf("Usage: ./biblioteca author '[author_name]'\n");
         }
-    }
+    } else if(strcmp(argv[1], "delete") == 0){
+        if(argc == 3){
+        int id = atoi(argv[2]);
+        deleteBook(books, id);
+        } else {
+            printf("Usage: ./biblioteca delete [ID]\n");
+        }
+
+    } 
     // Si el comando no es reconocido
     else {
         printf("Unknown command.\n");
