@@ -29,18 +29,7 @@ typedef struct{
 
 
 //Creamos una función para convertir los valores enteros del enum en strings de las palabras de cada género, llamando al enum tipo género, haciendo que nos devuelva un string u otro dependiendo de su valor.
-const char* convertGenre(genre gen) {    
-
-    switch (gen) {
-    case FICTION: return "Fiction";                     
-    case NON_FICTION: return "Non fiction";
-    case POETRY: return "Poetry";
-    case THEATER: return "Theatre";
-    case ESSAY: return "Essay";
-    default: return "Unknown";
-    }
-}
-
+const char* convertGenre(genre gen);    
 
 //Se imprime un libro basándose en los datos actuales del struct de tipo libro (Book).
 void showBook(const Book* data);
@@ -401,4 +390,16 @@ void deleteBook(Book* data, int id) {
 
     //Indicamos que el ID eliminado está disponible
     printf("Now ID %d is free to use.\n", id);  
+}
+
+const char* convertGenre(genre gen){    
+
+    switch (gen) {
+    case FICTION: return "Fiction";                     
+    case NON_FICTION: return "Non fiction";
+    case POETRY: return "Poetry";
+    case THEATER: return "Theatre";
+    case ESSAY: return "Essay";
+    default: return "Unknown";
+    }
 }
