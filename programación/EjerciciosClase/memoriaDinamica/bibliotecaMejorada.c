@@ -110,7 +110,7 @@ int main(int argc, char **argv){
     books = addBook(books, 40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ESSAY, 1);
 
     if (argc < 2) {
-        printf("Type in ./biblioteca [command] [arguments]\n");
+        printf("Type in ./biblioteca [command] [arguments]\nList of arguments:\n\t./biblioteca mostrar\n\t./biblioteca mostrar [ID]\n\t./biblioteca stock [ID] [Quantity]\n\t./biblioteca categoria [Category]\n\t./biblioteca autor [name]\n\t./biblioteca autor '[Name composed of two or more words]'\n\t./biblioteca añadir\n\t./biblioteca eliminar\n");
         return 0;
     }
 
@@ -140,9 +140,10 @@ int main(int argc, char **argv){
     else if (strcmp(argv[1], "categoria") == 0) {
         if (argc == 3) {
             int gen = atoi(argv[2]);
+
             showCategory(books, (genre)gen);
         } else {
-            printf("Usage: ./biblioteca category [genre_id]\n");
+            printf("Usage: ./biblioteca category [genre_id] (1: Fiction, 2: Non fiction, 3: Poetry, 4: Theater, 5: Essay)\n");
         }
     } 
     //Comando para mostrar los libros de un autor específico
@@ -190,6 +191,12 @@ void addStock(Book *data, int id, int sum){
         return;
     }
 
+    //Si la suma de stock que se quiere añadir es 0 o menor, o 1 o más letras, manda un mensaje de error y acaba.
+    if (sum < 1 || sum > 10000) {
+        printf("Invalid quantity.\n");
+        return;
+    }
+
     //Se le suma la cantidad pedida por el usuario al stock del libro pedido. Se le resta una unidad a la ID porque ésta es una unidad mayor a la posición del libro al que corresponde.
     data[id-1].stock += sum;
 
@@ -213,18 +220,23 @@ void showAll(const Book* data){
 }
 
 void showCategory(const Book * data, genre gen){
+    if (gen == 0){
+        printf("Invalid ID for genre\n");
+        return;
+    }
 
     //Declaramos un bucle for que haga tantas iteraciones como libros haya para que busque libro por libro.
     for(int i = 0; i < booksQuantity; i++){
 
         //Si en la iteración i el género introducido por el usuario coincide con el del libro de esa posición, se imprimirá dicho libro
-        if (data[i].typeGenre == gen){
-            showBook(data);
+        if ((data[i].typeGenre + 1) == gen){
+            showBook(&data[i]);
         }
     }
 }
 
 void displayByAuthor(const Book * data, const char *author){
+    int count = 0;
 
     //Declaramos un bucle for que haga tantas iteraciones como libros haya para que busque libro por libro.
     for(int i = 0; i < booksQuantity; i++){
@@ -232,9 +244,15 @@ void displayByAuthor(const Book * data, const char *author){
 
         //Si en la iteración i el autor introducido por el usuario coincide con el del libro de esa posición, se imprimirá dicho libro
         if (strcmp(data[i].author, author) == 0){
-            showBook(data);
-        }
+            count++;
+            showBook(&data[i]);
+        } 
     }
+
+    if(count == 0){
+        printf("There are no books from this author.\n");
+    }
+
 }
 
 Book* addBook(Book* direction, int addId, const char* addTitle, const char* addAuthor, float addPrice, int addGender, int addQuantity) {
@@ -276,6 +294,15 @@ Book* addBook(Book* direction, int addId, const char* addTitle, const char* addA
 }
 
 Book* addNewBook(Book* data, int numNewBooks) {
+
+    //Si la suma de stock que se quiere añadir es 0 o menor, o 1 o más letras, manda un mensaje de error y acaba.
+    if (numNewBooks < 1) {
+        printf("Invalid quantity.\n");
+        return NULL;
+    } else if(numNewBooks > 10) {
+        printf("The maximum amount to add is 10 books.\n");
+        return NULL;
+    }
 
     //Reasignamos memoria para los libros existentes más los nuevos libros y calculamos el tamaño total necesario para todos los libros.
     Book* newData = (Book*)realloc(data, (booksQuantity + numNewBooks) * sizeof(Book));
